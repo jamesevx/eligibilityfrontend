@@ -37,7 +37,7 @@ export default function EligibilityTool() {
   const estimateFunding = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/evaluate', {
+      const response = await fetch('https://eligibility-ddxm.onrender.com/api/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ formData })
