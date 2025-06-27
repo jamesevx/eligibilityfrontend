@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 
 export default function EligibilityTool() {
@@ -10,7 +11,7 @@ export default function EligibilityTool() {
     chargerKW: '',
     numPorts: '',
     portKW: '',
-    usageType: '', // changed from usageTypes: []
+    usageType: '',
     publicAccess: '',
     name: '',
     email: '',
@@ -43,8 +44,9 @@ export default function EligibilityTool() {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto' }}>
-      <h2>EV Charging Incentive Eligibility Tool</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+      <h2 className="text-2xl font-bold mb-6 text-center">EV Charging Incentive Eligibility Tool</h2>
+
       {Object.entries({
         'Site Address': 'siteAddress',
         'Utility Provider': 'utilityProvider',
@@ -57,15 +59,25 @@ export default function EligibilityTool() {
         'Company': 'company',
         'Email': 'email'
       }).map(([label, name]) => (
-        <div key={name}>
-          <label>{label}</label><br />
-          <input name={name} value={formData[name]} onChange={handleChange} /><br />
+        <div key={name} className="mb-4">
+          <label className="block font-medium mb-1">{label}</label>
+          <input
+            name={name}
+            value={formData[name]}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-md"
+          />
         </div>
       ))}
 
-      <div>
-        <label>Disadvantaged Community?</label>
-        <select name="disadvantagedCommunity" value={formData.disadvantagedCommunity} onChange={handleChange}>
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Disadvantaged Community?</label>
+        <select
+          name="disadvantagedCommunity"
+          value={formData.disadvantagedCommunity}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md"
+        >
           <option value="">Select</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
@@ -73,24 +85,32 @@ export default function EligibilityTool() {
         </select>
       </div>
 
-      <div>
-        <label>Who will use the chargers?</label><br />
-        {['Commercial', 'Multi-Family', 'Workplace', 'Office', 'Fleet', 'Government/Municipal'].map(opt => (
-          <label key={opt}>
-            <input
-              type="radio"
-              name="usageType"
-              value={opt}
-              checked={formData.usageType === opt}
-              onChange={handleChange}
-            /> {opt}<br />
-          </label>
-        ))}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Who will use the chargers?</label>
+        <div className="space-y-1">
+          {['Commercial', 'Multi-Family', 'Workplace', 'Office', 'Fleet', 'Government/Municipal'].map(opt => (
+            <label key={opt} className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="usageType"
+                value={opt}
+                checked={formData.usageType === opt}
+                onChange={handleChange}
+              />
+              <span>{opt}</span>
+            </label>
+          ))}
+        </div>
       </div>
 
-      <div>
-        <label>Public Access?</label>
-        <select name="publicAccess" value={formData.publicAccess} onChange={handleChange}>
+      <div className="mb-6">
+        <label className="block font-medium mb-1">Public Access?</label>
+        <select
+          name="publicAccess"
+          value={formData.publicAccess}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md"
+        >
           <option value="">Select</option>
           <option value="Yes – 24/7 public">Yes – 24/7 public</option>
           <option value="Yes – Limited public access">Yes – Limited public access</option>
@@ -98,14 +118,18 @@ export default function EligibilityTool() {
         </select>
       </div>
 
-      <button onClick={estimateFunding} disabled={loading}>
+      <button
+        onClick={estimateFunding}
+        disabled={loading}
+        className="w-full py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition"
+      >
         {loading ? 'Estimating...' : 'Estimate Funding'}
       </button>
 
       {results && (
-        <div>
-          <h3>Estimated Funding Ranges:</h3>
-          <pre>{results}</pre>
+        <div className="mt-8 p-4 bg-gray-100 border rounded-md whitespace-pre-wrap text-sm font-mono">
+          <h3 className="text-lg font-semibold mb-2">Estimated Funding Ranges:</h3>
+          {results}
         </div>
       )}
     </div>
