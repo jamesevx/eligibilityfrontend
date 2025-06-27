@@ -10,7 +10,7 @@ export default function EligibilityTool() {
     chargerKW: '',
     numPorts: '',
     portKW: '',
-    usageTypes: [],
+    usageType: '', // changed from usageTypes: []
     publicAccess: '',
     name: '',
     email: '',
@@ -21,17 +21,8 @@ export default function EligibilityTool() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      setFormData(prev => {
-        const newArr = checked
-          ? [...prev.usageTypes, value]
-          : prev.usageTypes.filter(item => item !== value);
-        return { ...prev, usageTypes: newArr };
-      });
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const estimateFunding = async () => {
@@ -71,35 +62,46 @@ export default function EligibilityTool() {
           <input name={name} value={formData[name]} onChange={handleChange} /><br />
         </div>
       ))}
+
       <div>
         <label>Disadvantaged Community?</label>
-        <select name="disadvantagedCommunity" onChange={handleChange}>
+        <select name="disadvantagedCommunity" value={formData.disadvantagedCommunity} onChange={handleChange}>
           <option value="">Select</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
           <option value="Not sure">Not sure</option>
         </select>
       </div>
+
       <div>
         <label>Who will use the chargers?</label><br />
-        {['Private fleet', 'Workplace charging', 'Public access'].map(opt => (
+        {['Commercial', 'Multi-Family', 'Workplace', 'Office', 'Fleet', 'Government/Municipal'].map(opt => (
           <label key={opt}>
-            <input type="checkbox" value={opt} checked={formData.usageTypes.includes(opt)} onChange={handleChange} /> {opt}<br />
+            <input
+              type="radio"
+              name="usageType"
+              value={opt}
+              checked={formData.usageType === opt}
+              onChange={handleChange}
+            /> {opt}<br />
           </label>
         ))}
       </div>
+
       <div>
         <label>Public Access?</label>
-        <select name="publicAccess" onChange={handleChange}>
+        <select name="publicAccess" value={formData.publicAccess} onChange={handleChange}>
           <option value="">Select</option>
           <option value="Yes – 24/7 public">Yes – 24/7 public</option>
           <option value="Yes – Limited public access">Yes – Limited public access</option>
           <option value="No">No</option>
         </select>
       </div>
+
       <button onClick={estimateFunding} disabled={loading}>
         {loading ? 'Estimating...' : 'Estimate Funding'}
       </button>
+
       {results && (
         <div>
           <h3>Estimated Funding Ranges:</h3>
