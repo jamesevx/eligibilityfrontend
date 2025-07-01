@@ -120,27 +120,19 @@ export default function EligibilityTool() {
 
       {/* ✅ New Dropdown for Vehicle Type */}
       <div className="mb-6">
-        <label className="block font-medium mb-1">Type of Vehicle Being Charged</label>
-        <select
-          name="vehicleType"
-          value={formData.vehicleType}
-          onChange={(e) => {
-            const selected = e.target.value;
-            const value =
-              selected === 'Light-Duty (Passenger Cars)'
-                ? 'light-duty'
-                : selected === 'Medium/Heavy Duty (Trucks)'
-                ? 'medium or heavy duty'
-                : '';
-            setFormData((prev) => ({ ...prev, vehicleType: value }));
-          }}
-          className="w-full px-3 py-2 border rounded-md"
-        >
-          <option value="">Select vehicle type</option>
-          <option value="Light-Duty (Passenger Cars)">Light-Duty (Passenger Cars)</option>
-          <option value="Medium/Heavy Duty (Trucks)">Medium/Heavy Duty (Trucks)</option>
-        </select>
-      </div>
+  <label className="block font-medium mb-1">Type of Vehicle Being Charged</label>
+  <select
+    name="vehicleType"
+    value={formData.vehicleType}
+    onChange={handleChange}
+    className="w-full px-3 py-2 border rounded-md"
+  >
+    <option value="">Select vehicle type</option>
+    <option value="light-duty">Light-Duty (Passenger Cars)</option>
+    <option value="medium or heavy duty">Medium/Heavy Duty (Trucks)</option>
+  </select>
+</div>
+
 
       <button
         onClick={estimateFunding}
