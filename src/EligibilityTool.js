@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 export default function EligibilityTool() {
@@ -13,6 +12,7 @@ export default function EligibilityTool() {
     portKW: '',
     usageType: '',
     publicAccess: '',
+    vehicleType: '', // ✅ Added vehicle type field
     name: '',
     email: '',
     company: ''
@@ -103,7 +103,7 @@ export default function EligibilityTool() {
         </div>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <label className="block font-medium mb-1">Public Access?</label>
         <select
           name="publicAccess"
@@ -115,6 +115,30 @@ export default function EligibilityTool() {
           <option value="Yes – 24/7 public">Yes – 24/7 public</option>
           <option value="Yes – Limited public access">Yes – Limited public access</option>
           <option value="No">No</option>
+        </select>
+      </div>
+
+      {/* ✅ New Dropdown for Vehicle Type */}
+      <div className="mb-6">
+        <label className="block font-medium mb-1">Type of Vehicle Being Charged</label>
+        <select
+          name="vehicleType"
+          value={formData.vehicleType}
+          onChange={(e) => {
+            const selected = e.target.value;
+            const value =
+              selected === 'Light-Duty (Passenger Cars)'
+                ? 'light-duty'
+                : selected === 'Medium/Heavy Duty (Trucks)'
+                ? 'medium or heavy duty'
+                : '';
+            setFormData((prev) => ({ ...prev, vehicleType: value }));
+          }}
+          className="w-full px-3 py-2 border rounded-md"
+        >
+          <option value="">Select vehicle type</option>
+          <option value="Light-Duty (Passenger Cars)">Light-Duty (Passenger Cars)</option>
+          <option value="Medium/Heavy Duty (Trucks)">Medium/Heavy Duty (Trucks)</option>
         </select>
       </div>
 
